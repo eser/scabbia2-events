@@ -4,6 +4,9 @@
     "type": "library",
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "config": {
+        "preferred-install": "dist"
+    },
     "keywords": [
         "larukedi",
         "scabbia",
@@ -12,13 +15,23 @@
         "events"
     ],
     "homepage": "http://www.scabbiafw.com/",
-    "license": "Apache-2.0",
+    "license": [
+        "Apache-2.0"
+    ],
     "authors": [
         {
             "name": "Scabbia Framework Organization",
-            "email": "contact@scabbiafw.com"
+            "homepage": "http://scabbiafw.com/"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/scabbiafw/scabbia2-events/blob/master/contributors.md"
         }
     ],
+    "support": {
+        "issues": "https://github.com/scabbiafw/scabbia2-events/issues",
+        "source": "https://github.com/scabbiafw/scabbia2-events"
+    },
     "require": {
         "php": ">=5.6.0"
     },

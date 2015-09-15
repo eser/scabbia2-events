@@ -1,6 +1,6 @@
 # Scabbia2 Events Component
 
-[This repository](https://github.com/scabbiafw/scabbia2-events/) is a simple event dispatcher allows registering callbacks to some events and chain execution of them.
+[This component](https://github.com/scabbiafw/scabbia2-events/) is a simple event dispatcher allows registering callbacks to some events and chain execution of them.
 
 [![Build Status](https://travis-ci.org/scabbiafw/scabbia2-events.png?branch=master)](https://travis-ci.org/scabbiafw/scabbia2-events)
 [![Total Downloads](https://poser.pugx.org/scabbiafw/scabbia2-events/downloads.png)](https://packagist.org/packages/scabbiafw/scabbia2-events)

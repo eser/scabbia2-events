@@ -24,7 +24,7 @@ use Scabbia\Events\Delegate;
  */
 class Events
 {
-    /** @type array event subscribers */
+    /** @type array      event subscribers */
     public $events = [];
     /** @type array      event depth */
     public $eventDepth = [];

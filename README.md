@@ -6,10 +6,11 @@
 [![Total Downloads](https://poser.pugx.org/scabbiafw/scabbia2-events/downloads.png)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 [![Latest Stable Version](https://poser.pugx.org/scabbiafw/scabbia2-events/v/stable)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 [![Latest Unstable Version](https://poser.pugx.org/scabbiafw/scabbia2-events/v/unstable)](https://packagist.org/packages/scabbiafw/scabbia2-events)
+[![Documentation Status](https://readthedocs.org/projects/scabbia2-documentation/badge/?version=latest)](http://docs.scabbiafw.com/)
 [![License](https://poser.pugx.org/scabbiafw/scabbia2-events/license.png)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 
 ## Links
-- [Documentation](http://scabbiafw.com/docs/)
+- [Documentation](http://docs.scabbiafw.com/)
 - [Twitter](https://twitter.com/scabbiafw)
 - [Contributor List](contributors.md)
 - [License Information](LICENSE)

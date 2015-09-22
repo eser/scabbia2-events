@@ -3,11 +3,11 @@
 [This component](https://github.com/scabbiafw/scabbia2-events/) is a simple event dispatcher allows registering callbacks to some events and chain execution of them.
 
 [![Build Status](https://travis-ci.org/scabbiafw/scabbia2-events.png?branch=master)](https://travis-ci.org/scabbiafw/scabbia2-events)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/scabbiafw/scabbia2-events/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/scabbiafw/scabbia2-events/?branch=master)
 [![Total Downloads](https://poser.pugx.org/scabbiafw/scabbia2-events/downloads.png)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 [![Latest Stable Version](https://poser.pugx.org/scabbiafw/scabbia2-events/v/stable)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 [![Latest Unstable Version](https://poser.pugx.org/scabbiafw/scabbia2-events/v/unstable)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 [![Documentation Status](https://readthedocs.org/projects/scabbia2-documentation/badge/?version=latest)](http://docs.scabbiafw.com/)
-[![License](https://poser.pugx.org/scabbiafw/scabbia2-events/license.png)](https://packagist.org/packages/scabbiafw/scabbia2-events)
 
 ## Links
 - [Documentation](http://docs.scabbiafw.com/)

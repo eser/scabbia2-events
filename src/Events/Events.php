@@ -24,8 +24,8 @@ use Scabbia\Events\Delegate;
  */
 class Events
 {
-    /** @type array      event subscribers */
-    public $events = [];
+    /** @type array      event delegates */
+    public $delegates = [];
     /** @type array      event depth */
     public $eventDepth = [];
     /** @type bool       indicates the event manager is currently disabled or not */
@@ -33,32 +33,30 @@ class Events
 
 
     /**
-     * Invokes an event
+     * Dispatches an event
      *
      * @param string     $uEvent     name of the event
-     * @param null|array $uEventArgs arguments for the event
+     * @param array      $uEventArgs arguments for the event
      *
-     * @return bool whether the event is invoked or not
+     * @return void
      */
-    public function invoke($uEvent, $uEventArgs = null)
+    public function dispatch($uEvent, ...$uEventArgs)
     {
         if ($this->disabled) {
-            return null;
+            return;
         }
 
-        if (!isset($this->events[$uEvent])) {
-            return null;
+        if (!isset($this->delegates[$uEvent])) {
+            return;
         }
 
         $this->eventDepth[] = [$uEvent, $uEventArgs];
-        $tReturn = $this->events[$uEvent]->invoke($uEventArgs);
+        $this->delegates[$uEvent]->invoke(...$uEventArgs);
         array_pop($this->eventDepth);
-
-        return $tReturn;
     }
 
     /**
-     * Makes a callback method subscribed to specified event
+     * Subscribes a callback method to specified event
      *
      * @param string   $uEvent    event
      * @param callable $uCallback callback
@@ -67,12 +65,12 @@ class Events
      *
      * @return void
      */
-    public function register($uEvent, $uCallback, $uState, $uPriority = null)
+    public function on($uEvent, $uCallback, $uState = null, $uPriority = null)
     {
-        if (!isset($this->events[$uEvent])) {
-            $this->events[$uEvent] = new Delegate();
+        if (!isset($this->delegates[$uEvent])) {
+            $this->delegates[$uEvent] = new Delegate();
         }
 
-        $this->events[$uEvent]->add($uCallback, $uState, $uPriority);
+        $this->delegates[$uEvent]->subscribe($uCallback, $uState, $uPriority);
     }
 }

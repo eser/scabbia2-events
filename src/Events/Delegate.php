@@ -13,8 +13,6 @@
 
 namespace Scabbia\Events;
 
-// use SplPriorityQueue;
-
 /**
  * Delegate is an inline members which executes an event-chain execution similar to Events,
  * but designed for object-oriented architecture
@@ -22,25 +20,27 @@ namespace Scabbia\Events;
  * @package     Scabbia\Events
  * @author      Eser Ozvataf <eser@ozvataf.com>
  * @since       2.0.0
+ *
+ * @remark SplPriorityQueue could be used, but it doesn't support serialiations.
  */
 class Delegate
 {
     /** @type array   list of callbacks */
     public $callbacks = null;
-    /** @type mixed   expected return value for interruption */
-    public $expectedReturn;
+    /** @type mixed   stop propagation if false is returned */
+    public $stopPropagationWithReturn = true;
+    /** @type bool    priorities sorted or not */
+    private $prioritiesSorted = true;
 
 
     /**
      * Constructs a new delegate in order to assign it to a member
      *
-     * @param mixed $uExpectedReturn Expected return value for interruption
-     *
      * @return Delegate a delegate
      */
-    public static function assign($uExpectedReturn = false)
+    public static function assign()
     {
-        $tNewInstance = new static($uExpectedReturn);
+        $tNewInstance = new static();
 
         return function (/* callable */ $uCallback = null, $uState = null, $uPriority = 10) use ($tNewInstance) {
             if ($uCallback !== null) {
@@ -61,7 +61,7 @@ class Delegate
      */
     public static function __set_state(array $uPropertyBag)
     {
-        $tNewInstance = new static($uPropertyBag["expectedReturn"]);
+        $tNewInstance = new static();
         $tNewInstance->callbacks = $uPropertyBag["callbacks"];
 
         return $tNewInstance;
@@ -71,17 +71,14 @@ class Delegate
     /**
      * Constructs a new instance of delegate
      *
-     * @param mixed $uExpectedReturn Expected return value for interruption
-     *
      * @return Delegate
      */
-    public function __construct($uExpectedReturn = false)
+    public function __construct()
     {
-        $this->expectedReturn = $uExpectedReturn;
     }
 
     /**
-     * Adds a callback to delegate
+     * Subscribes a callback to delegate
      *
      * @param callback  $uCallback  callback method
      * @param mixed     $uState     state object
@@ -89,26 +86,18 @@ class Delegate
      *
      * @return void
      */
-    public function add(/* callable */ $uCallback, $uState = null, $uPriority = null)
+    public function subscribe(/* callable */ $uCallback, $uState = null, $uPriority = null)
     {
-        // TODO SplPriorityQueue has a problem with serialization
-        /*
-        if ($this->callbacks === null) {
-            $this->callbacks = new SplPriorityQueue();
-        }
-
         if ($uPriority === null) {
             $uPriority = 10;
         }
 
-        $this->callbacks->insert([$uCallback, $uState], $uPriority);
-        */
-
         if ($this->callbacks === null) {
-            $this->callbacks = [];
+            $this->callbacks = [[$uCallback, $uState, $uPriority]];
+        } else {
+            $this->callbacks[] = [$uCallback, $uState, $uPriority];
+            $this->prioritiesSorted = false;
         }
-
-        $this->callbacks[] = [$uCallback, $uState];
     }
 
     /**
@@ -116,20 +105,45 @@ class Delegate
      *
      * @param array $uArgs arguments
      *
-     * @return bool whether the execution is broken or not
+     * @return bool whether the propagation is stopped or not
      */
     public function invoke(...$uArgs)
     {
+        if ($this->prioritiesSorted === false) {
+            echo "sort\n";
+            usort($this->callbacks, [$this, 'prioritySort']);
+            $this->prioritiesSorted = true;
+        }
+
         if ($this->callbacks !== null) {
             foreach ($this->callbacks as $tCallback) {
-                // array_unshift($tEventArgs, $tCallback[1]);
-
-                if (call_user_func($tCallback[0], ...$uArgs) === $this->expectedReturn) {
+                if (call_user_func($tCallback[0], ...$uArgs) === false && $this->stopPropagationWithReturn) {
                     return false;
                 }
             }
         }
 
         return true;
+    }
+
+    /**
+     * Sorts callbacks in order to their priority
+     *
+     * @param int $uFirst  first array item
+     * @param int $uSecond second array item
+     *
+     * @return int comparision result that indicates which item comes first
+     */
+    private function prioritySort($uFirst, $uSecond)
+    {
+        if ($uFirst[2] < $uSecond[2]) {
+            return -1;
+        }
+
+        if ($uFirst[2] > $uSecond[2]) {
+            return 1;
+        }
+
+        return 0;
     }
 }

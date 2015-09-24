@@ -103,21 +103,20 @@ class Delegate
     /**
      * Invokes the event-chain execution
      *
-     * @param array $uArgs arguments
+     * @param array $uParameters execution parameters
      *
      * @return bool whether the propagation is stopped or not
      */
-    public function invoke(...$uArgs)
+    public function invoke(...$uParameters)
     {
-        if ($this->prioritiesSorted === false) {
-            echo "sort\n";
-            usort($this->callbacks, [$this, 'prioritySort']);
-            $this->prioritiesSorted = true;
-        }
-
         if ($this->callbacks !== null) {
+            if ($this->prioritiesSorted === false) {
+                usort($this->callbacks, [$this, 'prioritySort']);
+                $this->prioritiesSorted = true;
+            }
+
             foreach ($this->callbacks as $tCallback) {
-                if (call_user_func($tCallback[0], ...$uArgs) === false && $this->stopPropagationWithReturn) {
+                if (call_user_func($tCallback[0], ...$uParameters) === false && $this->stopPropagationWithReturn) {
                     return false;
                 }
             }

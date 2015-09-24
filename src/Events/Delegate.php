@@ -44,7 +44,7 @@ class Delegate
 
         return function (/* callable */ $uCallback = null, $uState = null, $uPriority = 10) use ($tNewInstance) {
             if ($uCallback !== null) {
-                $tNewInstance->add($uCallback, $uState, $uPriority);
+                $tNewInstance->subscribe($uCallback, $uState, $uPriority);
             }
 
             return $tNewInstance;
@@ -67,15 +67,6 @@ class Delegate
         return $tNewInstance;
     }
     // @codingStandardsIgnoreEnd
-
-    /**
-     * Constructs a new instance of delegate
-     *
-     * @return Delegate
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * Subscribes a callback to delegate

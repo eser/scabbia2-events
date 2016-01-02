@@ -9,6 +9,91 @@
 [![Latest Unstable Version](https://poser.pugx.org/eserozvataf/scabbia2-events/v/unstable)](https://packagist.org/packages/eserozvataf/scabbia2-events)
 [![Documentation Status](https://readthedocs.org/projects/scabbia2-documentation/badge/?version=latest)](https://readthedocs.org/projects/scabbia2-documentation)
 
+## Usage
+
+### Delegates
+
+```php
+use Scabbia\Events\Delegate;
+
+$delegate = new Delegate();
+
+$delegate->subscribe(function (...$parameters) {
+    echo 'first subscriber:';
+    var_dump($parameters);
+});
+
+$delegate->subscribe(function (...$parameters) {
+    echo 'second subscriber:';
+    echo count($parameters);
+});
+
+$delegate->invoke('a', 'b', 'c');
+```
+
+### Delegates with priorities
+
+```php
+use Scabbia\Events\Delegate;
+
+$delegate = new Delegate();
+
+// a subscription with priority = 300
+$delegate->subscribe(function (...$parameters) {
+    echo 'first subscriber:';
+    var_dump($parameters);
+}, null, 300);
+
+// a subscriptino with priority = 1 (will be executed first)
+$delegate->subscribe(function (...$parameters) {
+    echo 'second subscriber, but more important:';
+    echo count($parameters);
+}, null, 1);
+
+$delegate->invoke('a', 'b', 'c');
+```
+
+### Delegates with breaking
+
+```php
+use Scabbia\Events\Delegate;
+
+$delegate = new Delegate();
+
+$delegate->subscribe(function (...$parameters) {
+    echo 'first subscriber:';
+    var_dump($parameters);
+
+    // breaks the execution
+    return false;
+});
+
+$delegate->subscribe(function (...$parameters) {
+    echo 'second subscriber, but not going to be executed:';
+    echo count($parameters);
+});
+
+$delegate->invoke('a', 'b', 'c');
+```
+
+### Events
+```php
+use Scabbia\Events\Events;
+
+$eventsManager = new Events();
+
+$eventsManager->on('click', function (...$parameters) {
+    echo "clicked on x={$parameters[0]} and y={$parameters[1]}!";
+});
+
+$eventsManager->on('double_click', function (...$parameters) {
+    echo 'double clicked!';
+});
+
+$eventsManager->dispatch('click', 5, 10);
+```
+
+
 ## Links
 - [List of All Scabbia2 Components](https://github.com/eserozvataf/scabbia2)
 - [Documentation](https://readthedocs.org/projects/scabbia2-documentation)

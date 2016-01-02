@@ -93,7 +93,6 @@ $eventsManager->on('double_click', function (...$parameters) {
 $eventsManager->dispatch('click', 5, 10);
 ```
 
-
 ## Links
 - [List of All Scabbia2 Components](https://github.com/eserozvataf/scabbia2)
 - [Documentation](https://readthedocs.org/projects/scabbia2-documentation)

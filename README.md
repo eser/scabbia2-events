@@ -44,7 +44,7 @@ $delegate->subscribe(function (...$parameters) {
     var_dump($parameters);
 }, null, 300);
 
-// a subscriptino with priority = 1 (will be executed first)
+// a subscription with priority = 1 (will be executed first)
 $delegate->subscribe(function (...$parameters) {
     echo 'second subscriber, but more important:';
     echo count($parameters);
